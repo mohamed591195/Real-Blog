@@ -1,8 +1,39 @@
 {%extends 'base.html' %}
+{%load static%}
 {% block title %}
 home page
 {% endblock %}
 
 {%block body%}
-Hello
+{%for post in posts%}
+        <section class='container-fluid'>
+          <div class="row">
+          <div class="blog col-md-9">        
+                  <div class="card">
+                      <a href="blog-1.html">
+                      <img src="{{post.image.url}}" class="card-img-top" alt="blog1"></a>
+                      <div class="card-body">
+                      <h3 class="card-title text-center">
+                            {{post.title}}
+                      </h3>
+                      <p class="text-justify">
+                        Lorem, ipsum dolor sit amet consectetur 
+                        adipisicing elit. Eius maiores inventore
+                        hic molestiae minus. Sint eaque nisi obcaecati,
+                        perspiciatis maxime ea laboriosam. Doloremque pariatur
+                        perferendis tempore culpa ex libero placeat? Lorem ipsum
+                        dolor sit, amet consectetur adipisicing elit. Debitis iste
+                        veniam sit! Dolore velit tempora officia rerum, laborum 
+                        asperiores consectetur cumque temporibus, dicta culpa 
+                        molestiae quos, dignissimos recusandae libero minima.
+                      </p>
+                      <p class="card-text"></p>
+                      </div>
+                      <div class="card-footer text-center">
+                      <a href="blog-1.html"><button type="button" class="btn btn-primary">Read More</button></a>
+                      </div>
+                  </div>          
+              </div>
+              </section>
+{%endfor%}
 {% endblock %}

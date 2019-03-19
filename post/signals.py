@@ -4,7 +4,7 @@ from .models import Profile
 from django.db.models.signals import post_save
 
 @receiver(post_save, sender=User)
-def CreateAuthor(sender,instance, created, **kwargs):
+def CreateProfile(sender,instance, created, **kwargs):
     print(kwargs)
     if created:
         new_profile = Profile( user=instance)

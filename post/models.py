@@ -3,31 +3,49 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from autoslug import AutoSlugField
 from autoslug.settings import slugify as default_slugify
-def custom_slugify(value):
-    return default_slugify(value).replace(' ', '-')
+
+
+
 
 class Profile(models.Model):
     SEX_CHOICES = (('M', 'Male'), ('F', 'Female'))
     first_name = models.CharField('First Name', max_length=20, blank=True)
-    second_name = models.CharField('First Name', max_length=20, blank=True)
+    last_name = models.CharField('Last Name', max_length=20, blank=True)
     image = models.ImageField('Personal Image', upload_to='post/profile/', default='media/blog/profile.jpg')
-    email = models.EmailField(blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     sex = models.CharField(choices=SEX_CHOICES, max_length=20, blank=True)
 
     def save(self, *args, **kwargs):
         self.first_name = self.user.first_name
-        self.second_name = self.user.second_name
-        self.email = self.user.email
+        self.last_name = self.user.last_name
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.first_name + self.last_name
+
 
 class Author(models.Model):
     bio = models.TextField('description (bio)', blank=True)
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.profile.first_name} {self.profile.second_name}'
+        return f'{self.profile.first_name} {self.profile.last_name}'
 
+
+
+
+def custom_slugify(value):
+    return default_slugify(value).replace(' ', '-')
+
+
+
+class published_posts(models.Manager):
+    def get_queryset(self):
+        # if super().get_queryset() == None:
+        #     super().get_queryset()
+        # else:
+        return super().get_queryset().filter(status='p')
+        
 class Post(models.Model):
     STATUS_CHOICES = (('p', 'Published'), ('d', 'Draft'))
     title = models.CharField('post title', max_length=50)
@@ -39,7 +57,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField( 'post status', max_length=50, choices=STATUS_CHOICES)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
-    
+    pub_posts = published_posts()
     class Meta:
         ordering = ['-published']
     
@@ -64,3 +82,11 @@ class CommentReply(models.Model):
     
     def __str__(self):
         return f'reply on {self.comment} of {self.comment.post}'
+
+
+
+
+
+
+
+        

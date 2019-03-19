@@ -9,5 +9,6 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title', 'body']
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'email', 'user', 'sex']
+    list_display = ['first_name', 'user', 'sex']
     
+admin.site.register(Author)
