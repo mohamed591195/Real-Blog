@@ -39,9 +39,16 @@
                 <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="{%url 'users:logout-page'%}">Logout</a>
+                </li>
             </ul>
         </div>
     </nav><!--End Navbar-->
+
+    {%block body%}
+    the body of the pages exists here
+    {% endblock %}
     <section class='container-fluid'></section>
     <div class="side-menu col-lg-2 col-sm-3 border ml-auto">
             <div class="blog-sidebar">
@@ -91,8 +98,7 @@
     {%endfor%}
     {%endif%}
 
-    {%block body%}
-    {% endblock %}
+   
     <section id="footer" class="bgc-ccc pt-3">
             <div class="container">
                 <div class="row text-center text-xs-center text-sm-left text-md-left">

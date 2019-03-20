@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+{%block title%}
+Login
+{%endblock%}
+{%block body%}
+<form method="POST" action="{%url 'users:login-page'%}">{%csrf_token%}
+
+
+{{form.as_p}}
+<button type="submit">Login</button>
+</form>
+<span class="display-5">Don't have an account!</span>
+<span class="display-5"><a href="{% url 'users:register-page' %}">Register</a></span>
+{%if next%}
+
+    
+<div class="display-5">you will be redirected to your destination after logining in</div>
+   
+{%endif%}
+{%endblock%}
