@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+{%block title%}
+{{post.title}}
+{%endblock%}
+{%block body%}
+
+<h1 class="text-center">{{post.title}}</h1>
+    <div class="row">
+        <div class="blog col-md-9">        
+            <div class="card">
+                <a href="#">
+                <img src="{{post.image.url}}" class="card-img-top" alt="blog1"></a>
+                <div class="card-body">
+                <h3 class="card-title text-center">
+                  
+                </h3>
+                <div class="blog-header">
+                    <h1 class="blog-title">Leopard female with her child</h1>
+                    <p class="lead blog-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sapiente dignissimos. Possimus, assumenda beatae perspiciatis quasi quia ab saepe optio officiis quos natus quibusdam nobis cumque amet dolor dolorem alias.</p>
+                  </div>
+            
+                  <div class="row">
+            
+                    <div class="col blog-main">
+            
+                      <div class="blog-post">
+                        <h2 class="blog-post-title">Post breif</h2>
+                        <p class="blog-post-meta">March 18, 2019 by <a href="#">Hany</a></p>
+            
+                       
+                        
+                      </div><!-- /.blog-post -->
+            
+                      <nav>
+                        <ul class="pager list-unstyled">
+                          <li>
+                            <a href="#">
+                              <i class="fa fa-angle-double-left"></i>
+                              Previous Post
+                            </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                Next Post
+                                <i class="fa fa-angle-double-right"></i>
+                              </a>
+                            </li>
+                        </ul>
+                      </nav>
+            
+                    </div><!-- /.blog-main -->
+            
+            
+                  </div><!-- /.row -->
+                <p class="card-text"></p>
+                </div>
+            </div>          
+        </div>
+    
+{%endblock%}

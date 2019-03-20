@@ -10,11 +10,12 @@ home page
           <div class="row">
           <div class="blog col-md-9">        
                   <div class="card">
-                      <a href="blog-1.html">
+                      <a href="{{post.get_absolute_url}}">
                       <img src="{{post.image.url}}" class="card-img-top" alt="blog1"></a>
                       <div class="card-body">
                       <h3 class="card-title text-center">
-                            {{post.title}}
+                        
+                            <a href="{{post.get_absolute_url}}"> {{post.title}}</a>
                       </h3>
                       <p class="text-justify">
                         Lorem, ipsum dolor sit amet consectetur 
@@ -30,10 +31,11 @@ home page
                       <p class="card-text"></p>
                       </div>
                       <div class="card-footer text-center">
-                      <a href="blog-1.html"><button type="button" class="btn btn-primary">Read More</button></a>
+                      <a href="{{post.get_absolute_url}}"><button type="button" class="btn btn-primary">Read More</button></a>
                       </div>
                   </div>          
               </div>
               </section>
 {%endfor%}
+
 {% endblock %}

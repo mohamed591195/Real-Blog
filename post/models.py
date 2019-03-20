@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from autoslug import AutoSlugField
@@ -57,12 +58,13 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField( 'post status', max_length=50, choices=STATUS_CHOICES)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
+    objects = models.Manager()
     pub_posts = published_posts()
     class Meta:
         ordering = ['-published']
     
     def get_absolute_url(self):
-        pass
+        return reverse('post:post-page', kwargs={'slug':self.slug})
     
     def __str__(self):
         return self.title
