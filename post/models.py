@@ -27,6 +27,7 @@ class Post(models.Model):
     slug = AutoSlugField(populate_from='title', unique_for_date='published', slugify=custom_slugify)
     body = models.TextField('post body')
     image = models.ImageField('post image', upload_to='post/posts/', blank=True)
+    thum_image = models.ImageField('Thumb image', upload_to='post/posts/', blank=True, default='post/posts/default-thumbnail.jpg' )
     created = models.DateTimeField(auto_now_add=True)
     published = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
@@ -44,7 +45,11 @@ class Post(models.Model):
                                                  'year': self.published.year,
                                                  'month': self.published.month,
                                                  'day': self.published.day})
-    
+    def get_update_url(self):
+        return reverse('post:updatepost-page', kwargs={'slug':self.slug,
+                                                 'year': self.published.year,
+                                                 'month': self.published.month,
+                                                 'day': self.published.day})
     def __str__(self):
         return self.title
     

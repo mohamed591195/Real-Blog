@@ -19,7 +19,7 @@ def RegisterView(request):
             password = form.cleaned_data['password2']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('post:home-page')
+            return redirect('users:profile-page')
     else:
         form = RegisterForm()
     
@@ -32,6 +32,7 @@ def UpdateProfileView(request):
         form = ProfileForm(request.POST, request.FILES,instance=request.user.profile)
         if form.is_valid():
             form.save()
+            return redirect('post:home-page')
         
     else:
         form = ProfileForm(instance=request.user.profile)

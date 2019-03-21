@@ -5,11 +5,14 @@
 {%block body%}
 
 <h1 class="text-center">{{post.title}}</h1>
+<h1 class="text-center">{{post.author}}</h1>
     <div class="row">
         <div class="blog col-md-9">        
             <div class="card">
                 <a href="#">
+                  {%if post.image%}
                 <img src="{{post.image.url}}" class="card-img-top" alt="blog1"></a>
+                  {%endif%}
                 <div class="card-body">
                 <h3 class="card-title text-center">
                   

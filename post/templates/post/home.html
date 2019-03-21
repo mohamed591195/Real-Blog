@@ -11,11 +11,12 @@ home page
           <div class="blog col-md-9">        
                   <div class="card">
                       <a href="{{post.get_absolute_url}}">
-                      <img src="{{post.image.url}}" class="card-img-top" alt="blog1"></a>
+                      <img src="{{post.thum_image.url}}" class="card-img-top" alt="blog1"></a>
                       <div class="card-body">
                       <h3 class="card-title text-center">
                         
                             <a href="{{post.get_absolute_url}}"> {{post.title}}</a>
+                            <p><a  href="{%url 'post:myposts-page' post.author.profile.user.username%}"> {{post.author.profile.user.username}}</a></p>
                       </h3>
                       <p class="text-justify">
                         {{post.body}}
@@ -24,10 +25,30 @@ home page
                       </div>
                       <div class="card-footer text-center">
                       <a href="{{post.get_absolute_url}}"><button type="button" class="btn btn-primary">Read More</button></a>
+                      {%if post.author.profile.user.username == user.username %}
+                    <a href="{{post.get_update_url}}"><button type="button" class="btn btn-primary">Edit</button></a>
+                    {%endif%}
                       </div>
                   </div>          
               </div>
               </section>
+              
 {%endfor%}
+<nav>
+    <ul class="pager list-unstyled">
+      <li>
+        <a href="#">
+          <i class="fa fa-angle-double-left"></i>
+          Previous Post
+        </a>
+      </li>
+      <li>
+          <a href="#">
+            Next Post
+            <i class="fa fa-angle-double-right"></i>
+          </a>
+        </li>
+    </ul>
+  </nav>
 
 {% endblock %}
