@@ -1,0 +1,10 @@
+{%extends 'base.html'%}
+{%block title%}
+Be an Author now!
+{%endblock%}
+{%block body%}
+<form method="POST" action="">{%csrf_token%}
+        {{form.as_p}}
+    <button type="submit"> Send </button>
+</form>
+{%endblock%}

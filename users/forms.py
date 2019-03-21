@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Profile, Author
 
 
 class RegisterForm(UserCreationForm):
@@ -17,3 +18,12 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError('the email is already exist')
         return email
     
+class ProfileForm(forms.ModelForm): 
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'image', 'sex']
+    
+class BeAuthorForm(forms.ModelForm):
+    class Meta:
+        model= Author
+        fields = ['bio']

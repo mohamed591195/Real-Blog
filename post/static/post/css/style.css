@@ -6,6 +6,10 @@
     width: fit-content;
     
 }
+img{
+    max-height: 230px;
+    max-width: 230px
+}
 
 .pager li{
     border: 1px solid #ccc;
@@ -21,6 +25,13 @@
 }
 
 
+.widthSet {
+    max-width: 64px;
+}
+
+.heightSet {
+    max-height: 64px;
+}
 
 
 

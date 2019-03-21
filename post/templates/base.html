@@ -39,9 +39,28 @@
                 <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
+            {%if user.is_authenticated%}
             <li class="nav-item">
-                    <a class="nav-link" href="{%url 'users:logout-page'%}">Logout</a>
+                    <a class="nav-link" href="{%url 'users:logout-page'%}">Logout </a>
                 </li>
+            
+            <li class="nav-item">
+                    <a class="nav-link" href="{%url 'users:profile-page'%}"> Profile</a>
+                </li>
+                {%if not user.profile.author%}
+                <li class="nav-item">
+                        <a class="nav-link" href="{%url 'users:beauthor-page'%}"> Become an author</a>
+                    </li>
+                {%else%}
+                <li class="nav-item">
+                        <a class="nav-link" href="{%url 'post:createpost-page'%}"> Create Post</a>
+                    </li>
+                {%endif%}
+                
+                {%endif%}
+
+                
+            
             </ul>
         </div>
     </nav><!--End Navbar-->

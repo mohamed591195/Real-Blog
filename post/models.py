@@ -24,7 +24,7 @@ class published_posts(models.Manager):
 class Post(models.Model):
     STATUS_CHOICES = (('p', 'Published'), ('d', 'Draft'))
     title = models.CharField('post title', max_length=50)
-    slug = AutoSlugField(populate_from='title', unique_for_date='created', slugify=custom_slugify)
+    slug = AutoSlugField(populate_from='title', unique_for_date='published', slugify=custom_slugify)
     body = models.TextField('post body')
     image = models.ImageField('post image', upload_to='post/posts/', blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -34,11 +34,16 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
     objects = models.Manager()
     pub_posts = published_posts()
+    
+    
     class Meta:
         ordering = ['-published']
     
     def get_absolute_url(self):
-        return reverse('post:post-page', kwargs={'slug':self.slug})
+        return reverse('post:post-page', kwargs={'slug':self.slug,
+                                                 'year': self.published.year,
+                                                 'month': self.published.month,
+                                                 'day': self.published.day})
     
     def __str__(self):
         return self.title
