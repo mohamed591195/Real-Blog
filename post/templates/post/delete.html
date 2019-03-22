@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+{%block title%}
+delete ?{{post.title}}
+{%endblock%}
+{%block body%}
+{% if user == post.author.profile.user%}
+<form method="POST" action="{%if from%}?next={{from}}{%endif%}">
+    {%csrf_token%}
+    Warning --- the following will be deleted:<br>
+     {{post.title}}<br>
+    <input type="submit" value="Confirm">
+</form>
+{%else%}
+<h3> {{user.profile}} {{warning}}</h3>
+{%endif%}
+{%endblock%}

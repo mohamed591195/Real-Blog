@@ -24,6 +24,7 @@ my posts
                     <a href="{{post.get_absolute_url}}"><button type="button" class="btn btn-primary">Read More</button></a>
                     {%if blogger.username == user.username %}
                     <a href="{{post.get_update_url}}"><button type="button" class="btn btn-primary">Edit</button></a>
+                    <a href="{%url 'post:delete-page' post.id%}?from={{request.path|urlencode}}"><button type="button" class="btn btn-danger">Remove</button></a>
                     {%endif%}
                     </div>
                 </div>          

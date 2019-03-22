@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Post
-from .forms import CreatePostForm
+from .forms import CreatePostForm, CommentForm, CommentReplyForm
 from django.core.paginator import Paginator
 
 
@@ -19,8 +19,16 @@ def DetailView(request, slug, year, month, day):
                                    published__year=year,
                                    published__month=month,
                                    published__day=day )
-
-    return render(request, 'post/detail.html', {'post': post})
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            newcom = form.save(commit=False)
+            newcom.user = request.user
+            newcom.post = post
+            newcom.save()
+    else:
+        form = CommentForm()
+    return render(request, 'post/detail.html', {'post': post, 'form':form})
 
 @login_required
 def CreatePostView(request):
@@ -35,6 +43,20 @@ def CreatePostView(request):
         form = CreatePostForm()
 
     return render(request, 'post/createpost.html', {'form': form})
+
+@login_required
+def DeleteView(request, id):
+    post = get_object_or_404(Post, id=id)
+    if request.user == post.author.profile.user:
+        if request.method == 'POST':
+            post.delete()
+            next = request.GET.get('next', None)
+            if next == None:
+                return redirect('post:home-page')
+            else:
+                return redirect(next)
+    warning = 'Your are not allowed to be here !'
+    return render(request, 'post/delete.html', {'post': post, 'warning': warning, 'from':request.GET.get('from', None)})
 
 
 @login_required

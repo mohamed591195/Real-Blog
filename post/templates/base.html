@@ -31,43 +31,26 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
             </li>
+            {%if user.is_authenticated%}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
-                </a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" href="{%url 'users:profile-page'%}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                        {%if not user.profile.author%}
+                        <a class="dropdown-item" href="{%url 'users:beauthor-page'%}">Become an author</a>
+                        {%else%}
+                        <a class="dropdown-item" href="{%url 'post:createpost-page'%}">Create Post</a>
+                        <a class="dropdown-item" href="{%url 'post:myposts-page' user.username%}">My Posts</a>
+                        {%endif%}
+                
+               
                 </div>
             </li>
-            {%if user.is_authenticated%}
             <li class="nav-item">
-                    <a class="nav-link" href="{%url 'users:logout-page'%}">Logout </a>
-                </li>
+                <a class="nav-link" href="{%url 'users:logout-page'%}">Logout </a>
+            </li>
+            <!-- <a class="navbar-brand widthSet heightSet" href="#"><img src="{{user.profile.image.url}}" alt="sss"></a> -->
+            {%endif%}
             
-            <li class="nav-item">
-                    <a class="nav-link" href="{%url 'users:profile-page'%}">{{user.username}}</a>
-
-                </li>
-               
-                
-           
-                {%if not user.profile.author%}
-                <li class="nav-item">
-                     <a class="nav-link" href="{%url 'users:beauthor-page'%}"> Become an author</a>
-                 </li>
-                {%else%}
-                <li class="nav-item">
-                    <a class="nav-link" href="{%url 'post:createpost-page'%}"> Create Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{%url 'post:myposts-page' user.username%}"> My Posts</a>
-                </li>
-                {%endif%}
-                <a class="navbar-brand widthSet heightSet" href="#"><img src="{{user.profile.image.url}}" alt="sss"></a>
-                {%endif%}
-
                 
             
             </ul>
