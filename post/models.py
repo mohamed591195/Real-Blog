@@ -5,7 +5,7 @@ from django.utils import timezone
 from autoslug import AutoSlugField
 from autoslug.settings import slugify as default_slugify
 from users.models import Author
-
+from PIL import Image
 
 
 
@@ -36,7 +36,15 @@ class Post(models.Model):
     objects = models.Manager()
     pub_posts = published_posts()
     
-    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.thum_image.path)
+        output = (300, 174)
+        if img.height > 300 and img.width >300:
+            img.thumbnail(output)
+
+            img.save(self.thum_image.path)
+
     class Meta:
         ordering = ['-published']
     
@@ -57,9 +65,11 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    
+    created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-created']
     def __str__(self):
-        return f'comment on{self.post}'
+        return self.body[:20]
 
 class CommentReply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')

@@ -5,159 +5,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel=stylesheet href="{% static 'post/css/bootstrap-4.2.1.css' %}">
+    <link rel=stylesheet href="{% static 'post/css/bootstrap.min.css' %}">
     <link rel=stylesheet href="{% static 'post/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'post/css/font-awesome-5.5.css' %}">
+    
     <title>{%block title%}{% endblock %}</title>
 </head>
 <body>
-       
-       <!-- Start NAVBAR-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="{%url 'post:home-page'%}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            
-                
-            <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            {%if user.is_authenticated%}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" href="{%url 'users:profile-page'%}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        {%if not user.profile.author%}
-                        <a class="dropdown-item" href="{%url 'users:beauthor-page'%}">Become an author</a>
-                        {%else%}
-                        <a class="dropdown-item" href="{%url 'post:createpost-page'%}">Create Post</a>
-                        <a class="dropdown-item" href="{%url 'post:myposts-page' user.username%}">My Posts</a>
-                        {%endif%}
-                
-               
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{%url 'users:logout-page'%}">Logout </a>
-            </li>
-            <!-- <a class="navbar-brand widthSet heightSet" href="#"><img src="{{user.profile.image.url}}" alt="sss"></a> -->
-            {%endif%}
-            
-                
-            
-            </ul>
+        {%if messages%}
+        {%for message in messages%}
+        <div class="alert alert-dismissible alert-{{message.tags}}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
         </div>
-    </nav><!--End Navbar-->
-
+    
+        
+        
+    
+        {%endfor%}
+        {%endif%}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{%url 'post:home-page'%}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    {%url 'users:login-page' as loginurl%}
+                    {%if not user.is_authenticated and request.path != loginurl%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{%url 'users:login-page'%}">LogIn</a>
+                    </li>
+                    {%endif%}
+                    {%if user.is_authenticated%}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" href="{%url 'users:profile-page'%}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            {%if not user.profile.author%}
+                                <a class="dropdown-item" href="{%url 'users:beauthor-page'%}">Become an author</a>
+                            {%else%}
+                                <a class="dropdown-item" href="{%url 'post:createpost-page'%}">Create Post</a>
+                                <a class="dropdown-item" href="{%url 'post:myposts-page' user.username%}">My Posts</a>
+                            {%endif%}
+                                <a class="dropdown-item" href="{%url 'users:logout-page'%}">Logout </a>
+                        </div>
+                    </li>
+                    {%endif%}
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+      
+           
+          
+           
+        <div class="container">
     {%block body%}
     the body of the pages exists here
     {% endblock %}
-    <section class='container-fluid'></section>
-    <div class="side-menu col-lg-2 col-sm-3 border ml-auto">
-            <div class="blog-sidebar">
-              <div class="sidebar-module sidebar-module-inset">
-                <h4 class = 'text-center'>About</h4>
-                <p class="text-justify">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-              </div>
-              <div class="sidebar-module">
-                <h4 class = 'text-center'>Archives</h4>
-                <ol class="list-unstyled">
-                  <li><a href="#">March 2014</a></li>
-                  <li><a href="#">February 2014</a></li>
-                  <li><a href="#">January 2014</a></li>
-                  <li><a href="#">December 2013</a></li>
-                  <li><a href="#">November 2013</a></li>
-                  <li><a href="#">October 2013</a></li>
-                  <li><a href="#">September 2013</a></li>
-                  <li><a href="#">August 2013</a></li>
-                  <li><a href="#">July 2013</a></li>
-                  <li><a href="#">June 2013</a></li>
-                  <li><a href="#">May 2013</a></li>
-                  <li><a href="#">April 2013</a></li>
-                </ol>
-              </div>
-              <div class="sidebar-module">
-                <h4 class = 'text-center'>Elsewhere</h4>
-                <ol class="list-unstyled">
-                  <li><a href="#">GitHub</a></li>
-                  <li><a href="#">Twitter</a></li>
-                  <li><a href="#">Facebook</a></li>
-                </ol>
-              </div>
-            </div><!-- /.blog-sidebar -->
-          </div> 
-    </div>     
-</section>     
-           
-            
-        
-        
-    {%if messages%}
-    {%for message in messages%}
-
-    {{message.tags}}
-    {{message}}
-
-    {%endfor%}
-    {%endif%}
+    </div>
+    
 
    
-    <section id="footer" class="bgc-ccc pt-3">
-            <div class="container">
-                <div class="row text-center text-xs-center text-sm-left text-md-left">
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <h5>Quick links</h5>
-                        <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Videos</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <h5>Quick links</h5>
-                        <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Videos</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <h5>Quick links</h5>
-                        <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-                            <li><a href="https://wwwe.sunlimetech.com" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
-                        <ul class="list-unstyled list-inline social text-center">
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fab fa-facebook fa-2x"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fab fa-twitter fa-2x"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fab fa-instagram fa-2x"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fab fa-google-plus fa-2x"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();" target="_blank"><i class="fa fa-envelope fa-2x"></i></a></li>
-                        </ul>
-                    </div>
-                    </hr>
-                </div>	
-            </div>
-        </section>
-        <!-- ./Footer -->                     
+    
+        <script src="{%static 'post/js/jquery.js' %}"></script> 
+        <script src="{%static 'post/js/propper.js' %}"></script> 
+        <script src="{%static 'post/js/bootstrap.js' %}"></script>                     
 </body>
 </html>

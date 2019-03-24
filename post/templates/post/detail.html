@@ -5,7 +5,7 @@
 {%block body%}
 
 <h1 class="text-center">{{post.title}}</h1>
-<h1 class="text-center">{{post.author}}</h1>
+
     <div class="row">
         <div class="blog col-md-9">        
             <div class="card">
@@ -28,7 +28,7 @@
             
                       <div class="blog-post">
                         <h2 class="blog-post-title">Post breif</h2>
-                        <p class="blog-post-meta">March 18, 2019 by <a href="#">Hany</a></p>
+                        <p class="blog-post-meta">{{post.published}} <a href="{%url 'post:myposts-page' blogger=post.author.profile.user.username%}">{{post.author}}</a></p>
             
                        
                         
@@ -44,5 +44,15 @@
                 </div>
             </div>          
         </div>
-    
+        <div class="container">
+        {%for comment in post.comments.all %}
+        <p class="row display-5" style="display: block; ">{{comment.user}}</p>
+          <p class="row display-5" style="display: block; ">__{{comment.body}}</p>
+        {%endfor%}
+        <form method="POST" action="">
+          {%csrf_token%}
+          {{form.as_p}}
+          <button type="submit">Comment</button>
+        </form>
+      </div>
 {%endblock%}

@@ -1,45 +1,33 @@
-.bgc-ccc{background-color: #ccc !important;}
-
-.pager{
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    
-}
-img{
-    max-height: 230px;
-    max-width: 230px
-}
-
-.pager li{
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
-    background-color: #333;
-}
-
-.pager li a{
-    color: #ccc;
+a:hover{
     text-decoration: none
 }
-
-
-.widthSet {
-    max-width: 64px;
+.resize {
+    width: 400px;
+    height: auto;
 }
 
-.heightSet {
-    max-height: 64px;
+.resize {
+    width: 300px;
+    height: auto;
+    
 }
+.jumbotron{
+    padding: 10px;
+}
+.online{
+   display: block
+    
 
-
-
-
-
-
-
-
-
-
-
+}
+.online > a > img{
+    float: left;
+    margin-right:5%; 
+   
+}
+.clear{
+    clear: both;
+}
+.leead{
+    
+    margin: 0 0 3% 
+}

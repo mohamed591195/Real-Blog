@@ -4,12 +4,13 @@ from django import forms
 class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields =['title', 'body', 'image', 'status']
+        fields =['title', 'body', 'image', 'thum_image', 'status']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['body']
+   
     
 class CommentReplyForm(forms.ModelForm):
     class Meta:

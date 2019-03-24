@@ -1,14 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Post
+from .models import Post, Comment, CommentReply
 from .forms import CreatePostForm, CommentForm, CommentReplyForm
 from django.core.paginator import Paginator
-
+from django import forms
 
 def home(request):
     query_list = Post.pub_posts.all()
-    paging = Paginator(query_list, 6)
+    paging = Paginator(query_list, 4)
     page = request.GET.get('page', 1)
     posts = paging.page(page)
     return render(request, 'post/home.html', {'posts': posts})
@@ -19,13 +19,19 @@ def DetailView(request, slug, year, month, day):
                                    published__year=year,
                                    published__month=month,
                                    published__day=day )
+   
+    
+    
+    
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
+            form.save
             newcom = form.save(commit=False)
             newcom.user = request.user
             newcom.post = post
             newcom.save()
+            form = CommentForm()
     else:
         form = CommentForm()
     return render(request, 'post/detail.html', {'post': post, 'form':form})
@@ -38,6 +44,7 @@ def CreatePostView(request):
             ins = form.save(commit=False)
             ins.author = request.user.profile.author
             ins.save()
+            
             return redirect('post:home-page')
     else:
         form = CreatePostForm()
@@ -52,7 +59,7 @@ def DeleteView(request, id):
             post.delete()
             next = request.GET.get('next', None)
             if next == None:
-                return redirect('post:home-page')
+                return redirect('post:home-page' )
             else:
                 return redirect(next)
     warning = 'Your are not allowed to be here !'
@@ -73,7 +80,7 @@ def UpdatePostView(request, slug, year, month, day):
                                                                                                         published__day=day))
         if form.is_valid():
             form.save()
-            return redirect('post:myposts-page')
+            return redirect('post:myposts-page', blogger=request.user)
     else:
         form = CreatePostForm(instance=request.user.profile.author.posts.get( slug=slug, 
                                                                               published__year=year,

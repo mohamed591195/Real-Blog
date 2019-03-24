@@ -5,55 +5,71 @@ home page
 {% endblock %}
 
 {%block body%}
+
+
 {%for post in posts%}
-        <section class='container-fluid'>
-          <div class="row">
-          <div class="blog col-md-9">        
-                  <div class="card">
-                      <a href="{{post.get_absolute_url}}">
-                      <img src="{{post.thum_image.url}}" class="card-img-top" alt="blog1"></a>
-                      <div class="card-body">
-                      <h3 class="card-title text-center">
-                        
-                            <a href="{{post.get_absolute_url}}"> {{post.title}}</a>
-                            <p><a  href="{%url 'post:myposts-page' post.author.profile.user.username%}"> {{post.author.profile.user.username}}</a></p>
-                      </h3>
-                      <p class="text-justify">
-                        {{post.body}}
-                      </p>
-                      <p class="card-text"></p>
-                      </div>
-                      <div class="card-footer text-center">
-                      <a href="{{post.get_absolute_url}}"><button type="button" class="btn btn-primary">Read More</button></a>
-                      {%if post.author.profile.user.username == user.username %}
-                    <a href="{{post.get_update_url}}"><button type="button" class="btn btn-primary">Edit</button></a>
-                    {%endif%}
-                      </div>
-                  </div>          
-              </div>
-              </section>
-              
-{%endfor%}
-<nav>
-    <ul class="pager list-unstyled">
-      {%if posts.has_previous%}
-      <li><a href="?page={{posts.previous_page_number}}"><i class="fa fa-angle-double-left"></i>Previous Page</a></li>
-      <li><a href="?page=1">First Page</a></li>
+<div class="row">
+<div class="jumbotron  col-md-11">
+    
+    <div class="online">
+      <a href="{{post.get_absolute_url}}"><img class=" resize"  src="{{post.thum_image.url}}" alt="Card image"></a>
+    <h1><a href="{{post.get_absolute_url}}"> {{post.title}}</a></h1>
+    <p class="lead">{{post.body|linebreaks|truncatechars:80}}</p>
+    <footer class="blockquote-footer ">Written By <cite title="Source Title"><h6 style="display:inline"><a  href="{%url 'post:myposts-page' post.author.profile.user.username%}"> {{post.author.profile.user.username}}</a></h6></cite></footer>
+   </div>
+   <div class="clear"></div>
+    <hr class="my-3">
+    
+   
+    <p class="lead leead">
+      <a class="btn btn-primary btn-lg" href="{{post.get_absolute_url}}" role="button">Read More</a>
+      {%if post.author.profile.user.username == user.username %}
+      <a class="btn btn-lg  btn-outline-warning" href="{{post.get_update_url}}" role="button">Edit</a>
+      
       {%endif%}
+      
+    </p>
+  </div>
+</div>
 
-      {%for num in posts.paginator.page_range%}
-        {% if num == posts.number%}
-        <li> <a href="?page={{num}}">{{num}}</a> </li>
-        {%elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
-        <li> <a href="?page={{num}}">{{num}}</a> </li>
-        {%endif%}
+{%endfor%}
+
+<div style="text-align:center;">
+    {%if posts.paginator%}
+  <div>
+    <ul class="pagination pagination-lg">
+      {%if posts.has_previous%}
+      <li class="page-item ">
+        <a class="page-link" href="?page=1">&laquo;First</a>
+      </li>
+      <li class="page-item ">
+        <a class="page-link" href="?page={{posts.previous_page_number}}">Previous</a>
+      </li>
+      {%endif%}
+      {% for num in posts.paginator.page_range%}
+      {%if num == posts.number%}
+      <li class="page-item active">
+          <a class="page-link" href="?page={{num}}">{{num}}</a>
+        </li>
+      {%elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+      
+      <li class="page-item">
+          <a class="page-link" href="?page={{num}}">{{num}}</a>
+        </li>
+      {%endif%}
       {%endfor%}
-
       {%if posts.has_next%}
-        <li><a href="?page={{posts.next_page_number}}">next Page<i class="fa fa-angle-double-right"></i></a></li>
-        <li><a href="?page={{posts.paginator.num_pages}}">Last Page</a></li>
+     
+      <li class="page-item">
+        <a class="page-link" href="?page={{posts.next_page_number}}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{posts.paginator.num_pages}}">&raquo;Last</a>
+      </li>
       {%endif%}
     </ul>
-  </nav>
+  </div>
+  {%endif%}
+</div>
 
 {% endblock %}
